@@ -9,14 +9,13 @@ exports.third_party_api_data = async function(request, response){
         let jsonData = await api_data_response.json();
         return response.status(200).json(jsonData);
     }catch(e){
-        return response.status(429).json({'error':'too many requests'})
+        return response.status(400).json({'error':'too many requests'})
     }
 }
 
 exports.get = async function(request, response){
     const employee = await Employee.find({});
     return response.status(200).json(employee);
-
 }
 
 exports.create =  async function(request, response){
@@ -42,7 +41,7 @@ exports.update = async function(request, response){
     EMPLOYEE.employee_age = employee_age;
     EMPLOYEE.employee_salary = employee_salary;
     EMPLOYEE.profile_image = profile_image;
-    EMPLOYEE.save();
+    await EMPLOYEE.save();
     return response.status(200).json(EMPLOYEE);
     }
 }
